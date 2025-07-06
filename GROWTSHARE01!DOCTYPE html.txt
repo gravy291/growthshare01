@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowthShare Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem;
+    }
+
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 800px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .tab.active {
+      background: #eef2ff;
+      border-bottom: 3px solid #4f46e5;
+    }
+
+    .tab-content {
+      padding: 2rem;
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    form input, form button, form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    form button {
+      background-color: #4f46e5;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .message {
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+  <header>GrowthShare Platform</header>
+  <main>
+    <div class="container">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(0)">Login</div>
+        <div class="tab" onclick="showTab(1)">Submit Idea</div>
+        <div class="tab" onclick="showTab(2)">Your Ideas</div>
+      </div>
+
+      <div class="tab-content active" id="tab-0">
+        <form onsubmit="loginUser(event)">
+          <input type="email" placeholder="Email" id="email" required>
+          <input type="password" placeholder="Password" id="password" required>
+          <button type="submit">Login</button>
+          <div id="login-message"></div>
+        </form>
+      </div>
+
+      <div class="tab-content" id="tab-1">
+        <form onsubmit="submitIdea(event)">
+          <input type="text" id="idea-title" placeholder="Idea Title" required>
+          <textarea id="idea-desc" placeholder="Describe your idea..." rows="4" required></textarea>
+          <button type="submit">Submit Idea</button>
+          <div id="submit-message"></div>
+        </form>
+      </div>
+
+      <div class="tab-content" id="tab-2">
+        <div id="ideas-list">No ideas submitted yet.</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let activeTab = 0;
+    const ideas = [];
+
+    function showTab(index) {
+      document.querySelectorAll('.tab').forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.tab-content').forEach((content, i) => {
+        content.classList.toggle('active', i === index);
+      });
+      activeTab = index;
+    }
+
+    function loginUser(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      const messageBox = document.getElementById('login-message');
+
+      if (email && pass) {
+        messageBox.innerHTML = '<div class="message success">Login successful!</div>';
+        showTab(1);
+      } else {
+        messageBox.innerHTML = '<div class="message error">Login failed. Try again.</div>';
+      }
+    }
+
+    function submitIdea(event) {
+      event.preventDefault();
+      const title = document.getElementById('idea-title').value;
+      const desc = document.getElementById('idea-desc').value;
+      const messageBox = document.getElementById('submit-message');
+
+      if (title && desc) {
+        ideas.push({ title, desc });
+        messageBox.innerHTML = '<div class="message success">Idea submitted!</div>';
+        document.getElementById('idea-title').value = '';
+        document.getElementById('idea-desc').value = '';
+        updateIdeasList();
+        showTab(2);
+      } else {
+        messageBox.innerHTML = '<div class="message error">Please fill all fields.</div>';
+      }
+    }
+
+    function updateIdeasList() {
+      const list = document.getElementById('ideas-list');
+      if (ideas.length === 0) {
+        list.innerHTML = 'No ideas submitted yet.';
+        return;
+      }
+
+      list.innerHTML = ideas.map(idea => `
+        <div style="margin-bottom: 1rem;">
+          <strong>${idea.title}</strong>
+          <p>${idea.desc}</p>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
