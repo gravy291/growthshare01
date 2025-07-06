@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,35 +13,40 @@
       font-family: 'Inter', sans-serif;
     }
     body {
-      background: #f4f6f8;
-      color: #333;
+      background: linear-gradient(135deg, #1e1e1e, #2d2d2d);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     header {
-      background-color: #4f46e5;
+      background-color: #f6851b;
       color: white;
-      padding: 1rem 2rem;
+      padding: 1.5rem 2rem;
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: bold;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     main {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       padding: 2rem;
     }
     .container {
-      background: white;
+      background: #262626;
       width: 100%;
       max-width: 800px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       overflow: hidden;
     }
     .tabs {
       display: flex;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 2px solid #3d3d3d;
+      background-color: #1e1e1e;
     }
     .tab {
       flex: 1;
@@ -50,11 +54,13 @@
       padding: 1rem;
       cursor: pointer;
       font-weight: 600;
-      transition: background 0.2s ease;
+      color: #bbb;
+      transition: all 0.3s ease;
     }
     .tab.active {
-      background: #eef2ff;
-      border-bottom: 3px solid #4f46e5;
+      background: #2f2f2f;
+      color: #f6851b;
+      border-bottom: 3px solid #f6851b;
     }
     .tab-content {
       padding: 2rem;
@@ -63,20 +69,28 @@
     .tab-content.active {
       display: block;
     }
-    form input, form button, form textarea {
+    form input,
+    form button,
+    form textarea {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.75rem 1rem;
       margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      border: 1px solid #555;
+      border-radius: 10px;
       font-size: 1rem;
+      background-color: #1e1e1e;
+      color: #fff;
     }
     form button {
-      background-color: #4f46e5;
-      color: white;
-      font-weight: 600;
+      background-color: #f6851b;
+      color: #fff;
+      font-weight: 700;
       cursor: pointer;
       border: none;
+      transition: background 0.3s ease;
+    }
+    form button:hover {
+      background-color: #e07d12;
     }
     .message {
       padding: 0.5rem 1rem;
@@ -85,12 +99,24 @@
       font-size: 0.95rem;
     }
     .success {
-      background-color: #d1fae5;
-      color: #065f46;
+      background-color: #256d1b;
+      color: #caffbf;
     }
     .error {
-      background-color: #fee2e2;
-      color: #991b1b;
+      background-color: #8b1e1e;
+      color: #ffc9c9;
+    }
+    #ideas-list > div {
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #333;
+    }
+    #ideas-list strong {
+      color: #f6851b;
+      display: block;
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
@@ -171,7 +197,7 @@
         return;
       }
       list.innerHTML = ideas.map(idea => `
-        <div style="margin-bottom: 1rem;">
+        <div>
           <strong>${idea.title}</strong>
           <p>${idea.desc}</p>
         </div>
